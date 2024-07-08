@@ -1,3 +1,4 @@
+<?php
 // original strings in english
 $url = 'https://raw.githubusercontent.com/icefields/Power-Ampache-2/main/app/src/main/res/values/strings.xml';
 
@@ -26,25 +27,18 @@ $xml = loadXMLFromURL($url);
 
 // Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    foreach($xml->string as $k => $v) {
-        //echo $v['name']." - ".$v;     
-    }
-
     foreach ($_POST as $key => $value) {
-    if (strpos($key, 'string_') === 0) {
+        if (strpos($key, 'string_') === 0) {
             $id = substr($key, 7); // Remove 'string_' prefix
-        $newElem = ['string']
-        echo "--".$xml->string['string'];
             if (isset($xml->$id)) {
-            $xml->string[$id] = $value;
+                $xml->string[$id] = $value;
             }
         }
     }
     
     // Generate XML content
     $xmlContent = $xml->asXML();
-    
-        
+         
     // Set headers for file download
     header('Content-Type: application/xml');
     header('Content-Disposition: attachment; filename="strings.xml"');
